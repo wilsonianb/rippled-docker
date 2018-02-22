@@ -1,8 +1,11 @@
-FROM ubuntu:15.10
+FROM centos:latest
 
-RUN apt-get update
-RUN apt-get -y install gcc git python-software-properties curl scons ctags pkg-config protobuf-compiler libprotobuf-dev libssl-dev python-software-properties libboost-all-dev nodejs 
+MAINTAINER Brandon Wilson <bwilson@ripple.com>
 
-COPY build-rippled.sh ./
+RUN rpm -Uvh https://mirrors.ripple.com/ripple-repo-el7.rpm && yum install -y --enablerepo=ripple-stable rippled
 
-CMD ./build-rippled.sh
+EXPOSE 5005
+EXPOSE 51235
+EXPOSE 6006
+
+CMD /opt/ripple/bin/rippled
